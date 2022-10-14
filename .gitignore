@@ -127,3 +127,8 @@
 02-experiment-tracking/models/preprocessor.b
 02-experiment-tracking/preprocessor/preprocessor.b
 02-experiment-tracking/mlflow.db
+02-experiment-tracking/mlflow.db
+02-experiment-tracking/output/dv.pkl
+02-experiment-tracking/output/test.pkl
+02-experiment-tracking/output/train.pkl
+02-experiment-tracking/output/valid.pkl
