@@ -137,3 +137,8 @@
 02-experiment-tracking/register_model.py
 02-experiment-tracking/scenario3_aws_remote_server.ipynb
 02-experiment-tracking/train.py
+02-experiment-tracking/hyper_param_optimize.py
+02-experiment-tracking/mlflow.db
+02-experiment-tracking/register_model.py
+02-experiment-tracking/scenario3_aws_remote_server.ipynb
+02-experiment-tracking/train.py
