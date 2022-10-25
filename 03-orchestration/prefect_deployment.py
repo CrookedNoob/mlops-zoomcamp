@@ -1,4 +1,5 @@
 
+from multiprocessing.resource_sharer import stop
 import pandas as pd
 import pickle
 
@@ -14,7 +15,18 @@ from hyperopt.pyll import scope
 import mlflow
 
 from prefect import flow, task
-#from prefect.task_runners import SequentialTaskRunner
+from prefect.task_runners import SequentialTaskRunner
+
+from prefect.deployments import Deployment
+from prefect.orion.schemas.schedules import IntervalSchedule
+from prefect.filesystems import S3
+from prefect.blocks.core import Block
+
+
+# from datetime import timedelta
+
+# s3_block = S3.load("nyc-trip-duration-model")
+# storage = Block.load("s3/nyc-trip-duration-model")
 
 
 
@@ -157,7 +169,7 @@ def train_best_model(train, valid, y_val, dv, best_params):
         
         mlflow.xgboost.log_model(booster, artifact_path="models_mlflow")
 
-@flow#(task_runner=SequentialTaskRunner)
+@flow(task_runner=SequentialTaskRunner)
 def main(train_path: str ="./data/green_tripdata_2021-01.parquet",
         val_path: str = "./data/green_tripdata_2021-02.parquet"):
     X_train, X_val, y_train, y_val, dv = add_features(train_path, val_path)
@@ -171,3 +183,14 @@ def main(train_path: str ="./data/green_tripdata_2021-01.parquet",
 
 if __name__ == "__main__":
     main()
+
+    # deployment = Deployment.build_from_flow(
+    #     flow=main,
+    #     name="model_training",
+    #     schedule=IntervalSchedule(interval=timedelta(minutes=5)),
+    #     work_queue_name="ml",
+    #     #storage=storage
+    # )
+    
+    # deployment.apply()
+#    main()
