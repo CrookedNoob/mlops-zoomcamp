@@ -1,0 +1,40 @@
+###
+### A complete description of a Prefect Deployment for flow 'log-flow'
+###
+name: log-simple
+description: null
+version: baa59d405cc71ba0eb12d26a17f7a695
+# The work queue that will handle this deployment's runs
+work_queue_name: test
+tags: []
+parameters: {}
+schedule: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: log-flow
+manifest_path: null
+storage: null
+path: C:\Users\soumy\source\repos\mlops-zoomcamp\03-orchestration
+entrypoint: log_flow.py:log_flow
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    name:
+      title: name
+      type: string
+  required:
+  - name
+  definitions: null
