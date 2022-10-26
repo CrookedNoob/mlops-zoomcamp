@@ -30,7 +30,7 @@ def log_flow(name: str):
     log_debug()
 
 if __name__ == "__main__":
-    name = "Mr. Data Scientist"
+    name = sys.argv[1]
     log_flow(name)
 
 
