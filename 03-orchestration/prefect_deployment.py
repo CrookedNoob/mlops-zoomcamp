@@ -1,9 +1,4 @@
-"""This code will not work due to the mismatch in prefect versions 
-and the huge change in codebase of the same.
-Working on the process to figure out the correct process to deploy 
-with latest version of prefect (2.6.4)"""
 
-from multiprocessing.resource_sharer import stop
 import pandas as pd
 import pickle
 
@@ -23,14 +18,9 @@ from prefect.task_runners import SequentialTaskRunner
 
 from prefect.deployments import Deployment
 from prefect.orion.schemas.schedules import IntervalSchedule
-from prefect.filesystems import S3
-from prefect.blocks.core import Block
 
 
-# from datetime import timedelta
-
-# s3_block = S3.load("nyc-trip-duration-model")
-# storage = Block.load("s3/nyc-trip-duration-model")
+from datetime import timedelta
 
 
 
@@ -185,16 +175,17 @@ def main(train_path: str ="./data/green_tripdata_2021-01.parquet",
     train_best_model(train, valid, y_val, dv, best_params)
     
 
-if __name__ == "__main__":
-    main()
+deployment = Deployment.build_from_flow(
+        flow=main,
+        name="model_training",
+        schedule=IntervalSchedule(interval=timedelta(minutes=5)),
+        work_queue_name="ml",
+        #storage=storage
+    )
 
-    # deployment = Deployment.build_from_flow(
-    #     flow=main,
-    #     name="model_training",
-    #     schedule=IntervalSchedule(interval=timedelta(minutes=5)),
-    #     work_queue_name="ml",
-    #     #storage=storage
-    # )
-    
-    # deployment.apply()
-#    main()
+
+if __name__ == "__main__":
+    #main()
+    deployment.apply()
+
+#   prefect agent start -q mml
